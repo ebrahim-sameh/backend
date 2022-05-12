@@ -6,10 +6,10 @@ const STORE_CORS = process.env.STORE_CORS || "http://localhost:8000";
 
 // Database URL (here we use a local database called medusa-development)
 const DATABASE_URL =
-  process.env.DATABASE_URL || "postgres://localhost/medusa-store";
+  process.env.QOVERY_POSTGRESQL_Z80195952_DATABASE_URL || "postgres://localhost/medusa-store";
 
 // Medusa uses Redis, so this needs configuration as well
-const REDIS_URL = process.env.REDIS_URL || "redis://localhost:6379";
+const REDIS_URL = process.env.QOVERY_REDIS_Z2DF0513F_DATABASE_URL || "redis://localhost:6379";
 
 // Stripe keys
 const STRIPE_API_KEY = process.env.STRIPE_API_KEY || "";
@@ -32,14 +32,12 @@ const plugins = [
 
 module.exports = {
   projectConfig: {
-    // redis_url: REDIS_URL,
-    // For more production-like environment install PostgresQL
-    // database_url: DATABASE_URL,
-    // database_type: "postgres",
-    database_database: "./medusa-db.sql",
-    database_type: "sqlite",
+    redis_url: REDIS_URL,
+    database_url: DATABASE_URL,
+    database_type: "postgres",
     store_cors: STORE_CORS,
     admin_cors: ADMIN_CORS,
-  },
+    database_extra: { ssl: { rejectUnauthorized: false } }
+    },
   plugins,
 };
